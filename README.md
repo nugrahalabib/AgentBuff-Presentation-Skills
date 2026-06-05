@@ -2,11 +2,7 @@
 
 > **AgentBuff Presentation** is a presentation-building **agent skill** — a personalized rework of the open-source [Frontend Slides](https://github.com/zarazhangrui/frontend-slides) skill — that lets *any* AI coding agent design beautiful decks and export them to **HTML, PDF, PNG/JPG, or PPTX**, with every export pixel-identical to the deck.
 
-**Maintained by [Nugraha Labib Mujaddid](https://github.com/nugrahalabib)** &nbsp;·&nbsp; 🇬🇧 [English](#english) &nbsp;·&nbsp; 🇮🇩 [Bahasa Indonesia](#bahasa-indonesia)
-
----
-
-## English
+**Maintained by [Nugraha Labib Mujaddid](https://github.com/nugrahalabib)**
 
 A skill for any coding agent — Claude Code, Codex, Hermes, OpenClaw, Gemini CLI, and others — to create stunning presentations from scratch or by converting PowerPoint files, then export them to HTML, PDF, images, or PowerPoint. There is **no plugin and nothing Claude-specific**: the core `SKILL.md` is plain instructions any agent with filesystem and shell access can read.
 
@@ -557,64 +553,3 @@ Uses [Playwright](https://playwright.dev) to screenshot each slide at 1920×1080
 ## License
 
 MIT — see [`LICENSE`](LICENSE). Use it, modify it, share it.
-
----
-
-## Bahasa Indonesia
-
-**AgentBuff Presentation** adalah sebuah **project skill** — hasil modifikasi dari skill open-source [Frontend Slides](https://github.com/zarazhangrui/frontend-slides) (oleh Zara Zhang) — yang bisa diberikan ke **agentic AI mana pun** (Claude Code, Codex, Hermes, OpenClaw, Gemini CLI, dan lainnya) untuk membuat presentasi yang indah, lalu mengekspornya ke **HTML, PDF, PNG/JPG, atau PPTX** — semuanya pixel-identik dengan deck-nya. **Tidak ada plugin dan tidak ada yang khusus Claude**: `SKILL.md` hanyalah instruksi biasa yang bisa dibaca agent apa pun dengan akses filesystem & shell.
-
-### Apa yang dilakukannya
-
-Membantu non-desainer membuat presentasi web yang indah tanpa tahu CSS/JavaScript. Pendekatannya **"show, don't tell"**: alih-alih memintamu mendeskripsikan selera, agent membuat beberapa preview gaya visual lalu kamu tinggal memilih. Presentasi dibuat sekali sebagai **HTML deck tanpa dependency** (satu file), dan dari situ bisa diekspor ke format lain.
-
-### Fitur utama
-
-- **Tanpa dependency** — Satu file HTML mandiri, CSS/JS inline, tanpa build tool.
-- **Ekspor multi-format** — Satu perintah mengubah deck jadi **PDF, PNG/JPG, atau PPTX** — semua pixel-identik dengan HTML (PPTX mode gambar atau editable).
-- **Agent-agnostic** — Tanpa plugin, tanpa hal khusus Claude. Bisa dipakai agent mana pun.
-- **Penemuan gaya visual** — Susah mengungkapkan selera? Pilih saja dari preview yang dibuatkan.
-- **Konversi PPT** — Ubah `.pptx` jadi web deck, mempertahankan teks, gambar, dan catatan.
-- **Bold Template Pack** — 34 sistem desain opsional, dimuat progresif.
-
-### Instalasi
-
-Bukan plugin, bukan marketplace — hanya folder skill. Salin file-nya ke folder skill milik agent-mu, atau cukup arahkan agent ke `SKILL.md`.
-
-```bash
-# Contoh untuk Claude Code (nama folder harus sama dengan nama skill)
-mkdir -p ~/.claude/skills/agentbuff-presentation
-git clone https://github.com/nugrahalabib/AgentBuff-Presentation-Skills.git ~/.claude/skills/agentbuff-presentation
-# lalu panggil di Claude Code: /agentbuff-presentation
-```
-
-Untuk agent lain, salin file yang sama ke folder skill yang dipakai agent tersebut.
-
-### Penggunaan
-
-Di Claude Code ketik `/agentbuff-presentation`; di agent lain minta ia memakai skill ini dan arahkan ke `SKILL.md`. Lalu cukup katakan, misalnya: *"Buatkan pitch deck untuk startup AI saya"* atau *"Konversi presentasi.pptx jadi slideshow web"*. Skill akan menanyakan konten, membuat 3 preview gaya untuk kamu pilih, membangun deck-nya, lalu membukanya di browser.
-
-### Galeri template
-
-34 template desain bold ditampilkan di galeri **[Bold Template Gallery](#bold-template-gallery)** pada bagian English di atas (gambar-gambarnya kini tersimpan lokal di repo ini, di `assets/screenshots/`).
-
-### Ekspor & berbagi
-
-Satu perintah mengekspor deck ke kombinasi format apa pun (semuanya pixel-identik):
-
-```bash
-node scripts/export-deck.mjs ./presentation.html --format=all
-node scripts/export-deck.mjs ./presentation.html --format=pptx --pptx-mode=editable
-```
-
-PPTX punya dua mode: `image` (default — pixel-identik) dan `editable` (text box native, bisa diedit di PowerPoint tapi tampilannya approximate). Untuk URL live: `bash scripts/deploy.sh ./presentation.html` (Vercel, tier gratis).
-
-### Kebutuhan
-
-- Agent (atau orang) mana pun dengan akses filesystem & shell — tanpa plugin/marketplace.
-- Ekspor (PDF/PNG/JPG/PPTX) & deploy: Node.js (Playwright + `pptxgenjs` terpasang otomatis saat run pertama).
-- Konversi PPT: Python + `python-pptx`. URL live: akun Vercel gratis.
-
-### Kredit & Lisensi
-
-Dikelola oleh **[Nugraha Labib Mujaddid](https://github.com/nugrahalabib)** (pengemasan agent-agnostic, exporter multi-format, dokumentasi). Berbasis skill **Frontend Slides** & **Bold Template Pack** oleh [@zarazhangrui](https://github.com/zarazhangrui). Lisensi **MIT** — lihat [`LICENSE`](LICENSE).
