@@ -1,8 +1,8 @@
 # AgentBuff Presentation
 
-> **AgentBuff Presentation** is a presentation-building **agent skill** — a personalized rework of the open-source [Frontend Slides](https://github.com/zarazhangrui/frontend-slides) skill — that lets *any* AI coding agent design beautiful decks and export them to **HTML, PDF, PNG/JPG, or PPTX**, with every export pixel-identical to the deck.
+> **AgentBuff Presentation** is a presentation-building **agent skill** — a modified and upgraded version of the open-source [Frontend Slides](https://github.com/zarazhangrui/frontend-slides) skill, reworked into its own project — that lets *any* AI coding agent design beautiful decks and export them to **HTML, PDF, PNG/JPG, or PPTX**, with every export pixel-identical to the deck.
 
-**Maintained by [Nugraha Labib Mujaddid](https://github.com/nugrahalabib)**
+**Modified & developed by [Nugraha Labib Mujaddid](https://github.com/nugrahalabib)**
 
 A skill for any coding agent — Claude Code, Codex, Hermes, OpenClaw, Gemini CLI, and others — to create stunning presentations from scratch or by converting PowerPoint files, then export them to HTML, PDF, images, or PowerPoint. There is **no plugin and nothing Claude-specific**: the core `SKILL.md` is plain instructions any agent with filesystem and shell access can read.
 
@@ -547,8 +547,8 @@ Uses [Playwright](https://playwright.dev) to screenshot each slide at 1920×1080
 
 ## Credits
 
-- **Maintained by [Nugraha Labib Mujaddid](https://github.com/nugrahalabib)** — agent-agnostic rework, the unified multi-format exporter (PDF/PNG/JPG/PPTX, image + editable), and these docs.
-- Based on the original **Frontend Slides** skill and the **Bold Template Pack** by [@zarazhangrui](https://github.com/zarazhangrui).
+- **Modified, upgraded & developed by [Nugraha Labib Mujaddid](https://github.com/nugrahalabib)** — this project: the agent-agnostic rework, the unified multi-format exporter (PDF/PNG/JPG/PPTX, image + editable), and these docs.
+- Built on top of the original **Frontend Slides** skill and the **Bold Template Pack** by [@zarazhangrui](https://github.com/zarazhangrui).
 
 ## License
 
