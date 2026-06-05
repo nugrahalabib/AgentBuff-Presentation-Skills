@@ -1,236 +1,620 @@
-<!-- Language switch -->
-**[🇬🇧 English](#english) · [🇮🇩 Bahasa Indonesia](#bahasa-indonesia)**
-
----
-
 # AgentBuff Presentation
 
-> A portable **agent skill** for creating stunning presentations and delivering them in **any format** — interactive HTML deck, **PDF**, **PNG/JPG**, or **PPTX (PowerPoint)** — every export pixel-identical to the deck. Works with **any** coding agent that has filesystem + shell access.
+> **AgentBuff Presentation** is a presentation-building **agent skill** — a personalized rework of the open-source [Frontend Slides](https://github.com/zarazhangrui/frontend-slides) skill — that lets *any* AI coding agent design beautiful decks and export them to **HTML, PDF, PNG/JPG, or PPTX**, with every export pixel-identical to the deck.
+
+**Maintained by [Nugraha Labib Mujaddid](https://github.com/nugrahalabib)** &nbsp;·&nbsp; 🇬🇧 [English](#english) &nbsp;·&nbsp; 🇮🇩 [Bahasa Indonesia](#bahasa-indonesia)
 
 ---
 
 ## English
 
-### What is this?
+A skill for any coding agent — Claude Code, Codex, Hermes, OpenClaw, Gemini CLI, and others — to create stunning presentations from scratch or by converting PowerPoint files, then export them to HTML, PDF, images, or PowerPoint. There is **no plugin and nothing Claude-specific**: the core `SKILL.md` is plain instructions any agent with filesystem and shell access can read.
 
-**AgentBuff Presentation** is a skill you can hand to *any* agentic AI — Claude Code, Codex, Hermes, OpenClaw, Gemini CLI, a CI job, or a human — to build beautiful, distinctive presentations without writing CSS or JavaScript.
+## What This Does
 
-It uses a **"show, don't tell"** approach: instead of asking you to describe your taste in words, the agent generates visual style previews and lets you pick. The presentation is authored once as a **zero-dependency HTML deck** (a single file, all CSS/JS inline). That HTML deck is the **single source of truth** — and from it you can export to PDF, images, or PowerPoint, all generated from the same 1920×1080 render so they look **exactly** like the deck.
+**AgentBuff Presentation** helps non-designers create beautiful web presentations without knowing CSS or JavaScript. It uses a "show, don't tell" approach: instead of asking you to describe your aesthetic preferences in words, it generates visual previews and lets you pick what you like.
 
-There is **no plugin, no marketplace, and nothing Claude-specific**. It is just `SKILL.md` (the instructions) plus a few supporting files and scripts, all standard tooling.
+Here is a deck about the skill, made through the skill:
 
-### Output formats
+https://github.com/user-attachments/assets/ef57333e-f879-432a-afb9-180388982478
 
-The HTML deck is always built first (it carries the design). Everything else is exported from it:
+### Key Features
 
-| Format | What it is | Best for |
-| ------ | ---------- | -------- |
-| **HTML deck** | Interactive, animated, single file | Presenting live, sharing a link, inline editing |
-| **PDF** | One slide per page, 16:9 | Email, print, Notion |
-| **PNG / JPG** | One image per slide, 1920×1080 | Thumbnails, social, docs |
-| **PPTX** | PowerPoint — image (pixel-perfect) or editable mode | Handing off to PowerPoint/Keynote users |
+- **Zero Dependencies** — Single HTML files with inline CSS/JS. No npm, no build tools, no frameworks.
+- **Multi-Format Export** — One command turns the deck into **PDF, PNG/JPG, or PPTX** — all pixel-identical to the HTML (PPTX in image or editable mode).
+- **Agent-Agnostic** — No plugin, nothing Claude-specific. Any agent with filesystem + shell access can use it.
+- **Visual Style Discovery** — Can't articulate design preferences? No problem. Pick from generated visual previews.
+- **PPT Conversion** — Convert existing PowerPoint files to web, preserving all images and content.
+- **Anti-AI-Slop** — Curated distinctive styles that avoid generic AI aesthetics (bye-bye, purple gradients on white).
+- **Bold Template Pack** — Optional design-forward templates from `beautiful-html-templates`, loaded progressively so safe presets still work as the default fallback.
+- **Production Quality** — Accessible, fixed 16:9, well-commented code you can customize.
 
-### Key features
+## Installation
 
-- **Author once, export anywhere** — PDF / PNG / JPG / PPTX are all the deck's own rendered pixels, so exports never drift from the HTML.
-- **Agent-agnostic** — Only standard tooling (browser, Node.js, optional Python). No Claude-only APIs.
-- **Zero dependencies in the output** — The deck is one self-contained HTML file that will still work in 10 years.
-- **Anti-AI-slop design** — Curated, distinctive styles that avoid generic AI aesthetics (no purple-gradient-on-white).
-- **Bold Template Pack** — 34 optional design-forward systems, loaded progressively.
-- **PPT conversion** — Turn an existing `.pptx` into a web deck, preserving text, images, and notes.
+No plugin, no marketplace — it's just a skill folder. Install it by copying the files into your agent's skills directory, or simply point your agent at `SKILL.md`.
 
-### How any agent uses it
+**Any agent (recommended):** give the agent this repo (or the local folder) and ask it to *"use the AgentBuff Presentation skill in `SKILL.md`."* It reads `SKILL.md` and loads only the support files it needs.
 
-**Option A — point the agent at the skill.** Give the agent this repo (or the local folder) and ask it to *"use the AgentBuff Presentation skill in `SKILL.md`."* The agent reads `SKILL.md` and loads only the support files it needs.
-
-**Option B — install into the agent's skills directory.**
+**Install into a skills directory** (example for Claude Code — the folder name must match the skill name `agentbuff-presentation`):
 
 ```bash
-# Example for Claude Code (folder name must match the skill name)
 mkdir -p ~/.claude/skills/agentbuff-presentation
 git clone https://github.com/nugrahalabib/AgentBuff-Presentation-Skills.git ~/.claude/skills/agentbuff-presentation
-# then invoke it (Claude Code): /agentbuff-presentation
+# then invoke it in Claude Code: /agentbuff-presentation
 ```
 
-For other agents, copy the same files into whatever local skills directory that agent uses.
+For any other agent, copy the same files into whatever local skills directory that agent uses. The agent should start from `SKILL.md` and load the support files it references (`STYLE_PRESETS.md`, `viewport-base.css`, `html-template.md`, `animation-patterns.md`, `bold-template-pack/`, `scripts/`).
 
-### What it does (workflow)
+## Usage
 
-1. Asks about your content, length, density, and which **formats** you want.
-2. Generates **3 visual style previews** for you to compare and pick.
-3. Builds the full deck in your chosen style (fixed 16:9, animated, inline-editable).
-4. Opens it in your browser.
-5. Exports / shares on request.
+### Create a New Presentation
 
-### Exporting
+In Claude Code, type `/agentbuff-presentation`. In any other agent, ask it to use the AgentBuff Presentation skill and point it at `SKILL.md`:
 
-One command exports the finished deck to any combination of formats:
+```text
+/agentbuff-presentation
+
+> "I want to create a pitch deck for my AI startup"
+```
+
+The skill will:
+
+1. Ask about your content (slides, messages, images)
+2. Generate 3 visual style previews for you to compare, inferring the vibe from your brief unless you already named one
+3. Let you pick the visual direction
+4. Create the full presentation in your chosen style
+5. Open it in your browser
+
+### Convert a PowerPoint
+
+```text
+/agentbuff-presentation
+
+> "Convert my presentation.pptx to a web slideshow"
+```
+
+The skill will:
+
+1. Extract all text, images, and notes from your PPT
+2. Show you the extracted content for confirmation
+3. Let you pick a visual style
+4. Generate an HTML presentation with all your original assets
+
+## Included Styles
+
+### Dark Themes
+
+- **Bold Signal** — Confident, high-impact, vibrant card on dark
+- **Electric Studio** — Clean, professional, split-panel
+- **Creative Voltage** — Energetic, retro-modern, electric blue + neon
+- **Dark Botanical** — Elegant, sophisticated, warm accents
+
+### Light Themes
+
+- **Notebook Tabs** — Editorial, organized, paper with colorful tabs
+- **Pastel Geometry** — Friendly, approachable, vertical pills
+- **Split Pastel** — Playful, modern, two-color vertical split
+- **Vintage Editorial** — Witty, personality-driven, geometric shapes
+
+### Specialty
+
+- **Neon Cyber** — Futuristic, particle backgrounds, neon glow
+- **Terminal Green** — Developer-focused, hacker aesthetic
+- **Swiss Modern** — Minimal, Bauhaus-inspired, geometric
+- **Paper & Ink** — Literary, drop caps, pull quotes
+
+### Bold Template Pack
+
+The skill also includes 34 optional bold design systems from
+`beautiful-html-templates`, such as **Neo-Grid Bold**, **Editorial Tri-Tone**,
+**Creative Mode**, **Broadside**, **Signal**, and **Vellum**.
+
+During style discovery, the preview set is:
+
+- 1 safe preset from `STYLE_PRESETS.md`
+- at least 1 bold template option from `bold-template-pack/selection-index.json`
+- 1 wildcard option, either another bold template or a self-generated custom design
+
+The agent reads the compact bold template index first, then loads only the
+shortlisted candidates' small `preview.md` cards for title-slide previews. It
+loads the full `design.md` for exactly one bold template only after the user
+picks that template for the final deck. If the user picks a custom wildcard,
+the agent expands that preview's own CSS and layout system into the full deck.
+
+## Bold Template Gallery
+
+AgentBuff Presentation can now draw from the 34 bold design systems in [`beautiful-html-templates`](https://github.com/zarazhangrui/beautiful-html-templates). Three screenshots per template show how each visual system handles different slide layouts. Click any template name to inspect the source template library.
+
+### [Soft Editorial](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/soft-editorial/)
+
+<p>
+  <img src="assets/screenshots/soft-editorial-4.png" width="32.5%" alt="Soft Editorial — slide 4" />
+  <img src="assets/screenshots/soft-editorial-6.png" width="32.5%" alt="Soft Editorial — slide 6" />
+  <img src="assets/screenshots/soft-editorial-10.png" width="32.5%" alt="Soft Editorial — slide 10" />
+</p>
+
+> Cormorant Garamond serif on warm paper with sage, blush, and lemon accents.
+
+### [Editorial Forest](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/editorial-forest/)
+
+<p>
+  <img src="assets/screenshots/editorial-forest-1.png" width="32.5%" alt="Editorial Forest — slide 1" />
+  <img src="assets/screenshots/editorial-forest-2.png" width="32.5%" alt="Editorial Forest — slide 2" />
+  <img src="assets/screenshots/editorial-forest-5.png" width="32.5%" alt="Editorial Forest — slide 5" />
+</p>
+
+> Forest green, dusty pink, and warm cream in Source Serif 4 — quiet, intentional quarterly-review aesthetic.
+
+### [Pin & Paper](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/pin-and-paper/)
+
+<p>
+  <img src="assets/screenshots/pin-and-paper-1.png" width="32.5%" alt="Pin & Paper — slide 1" />
+  <img src="assets/screenshots/pin-and-paper-11.png" width="32.5%" alt="Pin & Paper — slide 11" />
+  <img src="assets/screenshots/pin-and-paper-3.png" width="32.5%" alt="Pin & Paper — slide 3" />
+</p>
+
+> Yellow paper with safety-pin illustrations, ink-blue handwritten Caveat, paper-grain texture.
+
+### [Sakura Chroma](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/sakura-chroma/)
+
+<p>
+  <img src="assets/screenshots/sakura-chroma-1.png" width="32.5%" alt="Sakura Chroma — slide 1" />
+  <img src="assets/screenshots/sakura-chroma-3.png" width="32.5%" alt="Sakura Chroma — slide 3" />
+  <img src="assets/screenshots/sakura-chroma-4.png" width="32.5%" alt="Sakura Chroma — slide 4" />
+</p>
+
+> Vintage Japanese cassette-package aesthetic: cream paper, diagonal rainbow ribbons, condensed bold type, JIS-style spec checkboxes.
+
+### [Stencil & Tablet](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/stencil-tablet/)
+
+<p>
+  <img src="assets/screenshots/stencil-tablet-1.png" width="32.5%" alt="Stencil & Tablet — slide 1" />
+  <img src="assets/screenshots/stencil-tablet-3.png" width="32.5%" alt="Stencil & Tablet — slide 3" />
+  <img src="assets/screenshots/stencil-tablet-8.png" width="32.5%" alt="Stencil & Tablet — slide 8" />
+</p>
+
+> Bone paper with stencil-cut headlines and a six-color earth palette: archaeology meets brand.
+
+### [Cobalt Grid](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/cobalt-grid/)
+
+<p>
+  <img src="assets/screenshots/cobalt-grid-1.png" width="32.5%" alt="Cobalt Grid — slide 1" />
+  <img src="assets/screenshots/cobalt-grid-3.png" width="32.5%" alt="Cobalt Grid — slide 3" />
+  <img src="assets/screenshots/cobalt-grid-5.png" width="32.5%" alt="Cobalt Grid — slide 5" />
+</p>
+
+> Electric cobalt italic serifs on a graph-paper canvas, anchored by stair-stepped pixel-glitch decorations and slim hairline rules.
+
+### [Vellum](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/vellum/)
+
+<p>
+  <img src="assets/screenshots/vellum-1.png" width="32.5%" alt="Vellum — slide 1" />
+  <img src="assets/screenshots/vellum-4.png" width="32.5%" alt="Vellum — slide 4" />
+  <img src="assets/screenshots/vellum-8.png" width="32.5%" alt="Vellum — slide 8" />
+</p>
+
+> Deep navy canvas with warm-yellow italic Cormorant serifs and a single dusty teal accent. A quiet, scholarly aesthetic.
+
+### [Emerald Editorial](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/emerald-editorial/)
+
+<p>
+  <img src="assets/screenshots/emerald-editorial-1.png" width="32.5%" alt="Emerald Editorial — slide 1" />
+  <img src="assets/screenshots/emerald-editorial-3.png" width="32.5%" alt="Emerald Editorial — slide 3" />
+  <img src="assets/screenshots/emerald-editorial-6.png" width="32.5%" alt="Emerald Editorial — slide 6" />
+</p>
+
+> Magazine-cover business deck: emerald + navy + paper with double-rule masthead ornaments and a heavy Bodoni-style display serif.
+
+### [Neo-Grid Bold](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/neo-grid-bold/)
+
+<p>
+  <img src="assets/screenshots/neo-grid-bold-1.png" width="32.5%" alt="Neo-Grid Bold — slide 1" />
+  <img src="assets/screenshots/neo-grid-bold-3.png" width="32.5%" alt="Neo-Grid Bold — slide 3" />
+  <img src="assets/screenshots/neo-grid-bold-8.png" width="32.5%" alt="Neo-Grid Bold — slide 8" />
+</p>
+
+> Editorial neo-brutalism with a single neon yellow accent on off-white paper.
+
+### [Editorial Tri-Tone](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/editorial-tri-tone/)
+
+<p>
+  <img src="assets/screenshots/editorial-tri-tone-1.png" width="32.5%" alt="Editorial Tri-Tone — slide 1" />
+  <img src="assets/screenshots/editorial-tri-tone-4.png" width="32.5%" alt="Editorial Tri-Tone — slide 4" />
+  <img src="assets/screenshots/editorial-tri-tone-3.png" width="32.5%" alt="Editorial Tri-Tone — slide 3" />
+</p>
+
+> Three-color editorial system: dusty pink, mustard cream, and deep burgundy, set in Bricolage + Instrument Serif.
+
+### [Creative Mode](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/creative-mode/)
+
+<p>
+  <img src="assets/screenshots/creative-mode-1.png" width="32.5%" alt="Creative Mode — slide 1" />
+  <img src="assets/screenshots/creative-mode-4.png" width="32.5%" alt="Creative Mode — slide 4" />
+  <img src="assets/screenshots/creative-mode-6.png" width="32.5%" alt="Creative Mode — slide 6" />
+</p>
+
+> Cream paper canvas with confident multi-color (green, pink, orange, yellow) accents and Archivo Black display.
+
+### [Monochrome](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/monochrome/)
+
+<p>
+  <img src="assets/screenshots/monochrome-1.png" width="32.5%" alt="Monochrome — slide 1" />
+  <img src="assets/screenshots/monochrome-4.png" width="32.5%" alt="Monochrome — slide 4" />
+  <img src="assets/screenshots/monochrome-12.png" width="32.5%" alt="Monochrome — slide 12" />
+</p>
+
+> Ivory ledger paper with all-black type; Lora serif headlines, Jost body, no color at all.
+
+### [People's Platform (Block & Bold)](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/peoples-platform/)
+
+<p>
+  <img src="assets/screenshots/peoples-platform-1.png" width="32.5%" alt="People's Platform (Block & Bold) — slide 1" />
+  <img src="assets/screenshots/peoples-platform-4.png" width="32.5%" alt="People's Platform (Block & Bold) — slide 4" />
+  <img src="assets/screenshots/peoples-platform-8.png" width="32.5%" alt="People's Platform (Block & Bold) — slide 8" />
+</p>
+
+> Activist poster energy: blue, orange, red on cream, with Alfa Slab + Caveat Brush.
+
+### [Pink Script — After Hours](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/pink-script/)
+
+<p>
+  <img src="assets/screenshots/pink-script-1.png" width="32.5%" alt="Pink Script — After Hours — slide 1" />
+  <img src="assets/screenshots/pink-script-4.png" width="32.5%" alt="Pink Script — After Hours — slide 4" />
+  <img src="assets/screenshots/pink-script-8.png" width="32.5%" alt="Pink Script — After Hours — slide 8" />
+</p>
+
+> Black canvas, hot pink accent, pearl-cream paper, Instrument Serif headlines: late-night editorial luxury.
+
+### [8-Bit Orbit](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/8-bit-orbit/)
+
+<p>
+  <img src="assets/screenshots/8-bit-orbit-1.png" width="32.5%" alt="8-Bit Orbit — slide 1" />
+  <img src="assets/screenshots/8-bit-orbit-6.png" width="32.5%" alt="8-Bit Orbit — slide 6" />
+  <img src="assets/screenshots/8-bit-orbit-5.png" width="32.5%" alt="8-Bit Orbit — slide 5" />
+</p>
+
+> Pixel-art neon arcade aesthetic on a deep navy void.
+
+### [BlockFrame](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/block-frame/)
+
+<p>
+  <img src="assets/screenshots/block-frame-1.png" width="32.5%" alt="BlockFrame — slide 1" />
+  <img src="assets/screenshots/block-frame-4.png" width="32.5%" alt="BlockFrame — slide 4" />
+  <img src="assets/screenshots/block-frame-8.png" width="32.5%" alt="BlockFrame — slide 8" />
+</p>
+
+> Neobrutalist deck with pastel-neon color blocks and chunky black borders.
+
+### [Blue Professional](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/blue-professional/)
+
+<p>
+  <img src="assets/screenshots/blue-professional-1.png" width="32.5%" alt="Blue Professional — slide 1" />
+  <img src="assets/screenshots/blue-professional-6.png" width="32.5%" alt="Blue Professional — slide 6" />
+  <img src="assets/screenshots/blue-professional-8.png" width="32.5%" alt="Blue Professional — slide 8" />
+</p>
+
+> Cream paper background with electric cobalt blue accents; clean modern professional.
+
+### [Bold Poster](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/bold-poster/)
+
+<p>
+  <img src="assets/screenshots/bold-poster-1.png" width="32.5%" alt="Bold Poster — slide 1" />
+  <img src="assets/screenshots/bold-poster-4.png" width="32.5%" alt="Bold Poster — slide 4" />
+  <img src="assets/screenshots/bold-poster-8.png" width="32.5%" alt="Bold Poster — slide 8" />
+</p>
+
+> Editorial poster aesthetic with massive Shrikhand display and a single fire-engine red accent.
+
+### [Broadside](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/broadside/)
+
+<p>
+  <img src="assets/screenshots/broadside-1.png" width="32.5%" alt="Broadside — slide 1" />
+  <img src="assets/screenshots/broadside-4.png" width="32.5%" alt="Broadside — slide 4" />
+  <img src="assets/screenshots/broadside-13.png" width="32.5%" alt="Broadside — slide 13" />
+</p>
+
+> Dark editorial canvas with a single fire orange accent and bilingual Latin/Chinese type stack.
+
+### [Capsule](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/capsule/)
+
+<p>
+  <img src="assets/screenshots/capsule-1.png" width="32.5%" alt="Capsule — slide 1" />
+  <img src="assets/screenshots/capsule-4.png" width="32.5%" alt="Capsule — slide 4" />
+  <img src="assets/screenshots/capsule-8.png" width="32.5%" alt="Capsule — slide 8" />
+</p>
+
+> Modular pill-shaped cards on warm bone with a full pastel-pop palette.
+
+### [Cartesian](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/cartesian/)
+
+<p>
+  <img src="assets/screenshots/cartesian-1.png" width="32.5%" alt="Cartesian — slide 1" />
+  <img src="assets/screenshots/cartesian-4.png" width="32.5%" alt="Cartesian — slide 4" />
+  <img src="assets/screenshots/cartesian-8.png" width="32.5%" alt="Cartesian — slide 8" />
+</p>
+
+> Quiet warm-neutral palette with classical Playfair serifs; tasteful and unhurried.
+
+### [Coral](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/coral/)
+
+<p>
+  <img src="assets/screenshots/coral-1.png" width="32.5%" alt="Coral — slide 1" />
+  <img src="assets/screenshots/coral-4.png" width="32.5%" alt="Coral — slide 4" />
+  <img src="assets/screenshots/coral-8.png" width="32.5%" alt="Coral — slide 8" />
+</p>
+
+> Cream and coral on near-black, set in oversized Bebas Neue.
+
+### [Daisy Days](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/daisy-days/)
+
+<p>
+  <img src="assets/screenshots/daisy-days-1.png" width="32.5%" alt="Daisy Days — slide 1" />
+  <img src="assets/screenshots/daisy-days-4.png" width="32.5%" alt="Daisy Days — slide 4" />
+  <img src="assets/screenshots/daisy-days-8.png" width="32.5%" alt="Daisy Days — slide 8" />
+</p>
+
+> Cheerful pastel deck with hand-drawn daisies, stars, and rainbows. Friendly, soft, and warm.
+
+### [Grove](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/grove/)
+
+<p>
+  <img src="assets/screenshots/grove-1.png" width="32.5%" alt="Grove — slide 1" />
+  <img src="assets/screenshots/grove-4.png" width="32.5%" alt="Grove — slide 4" />
+  <img src="assets/screenshots/grove-8.png" width="32.5%" alt="Grove — slide 8" />
+</p>
+
+> Forest-green canvas with cream type, classical Playfair serifs, and a single rust accent.
+
+### [Mat](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/mat/)
+
+<p>
+  <img src="assets/screenshots/mat-1.png" width="32.5%" alt="Mat — slide 1" />
+  <img src="assets/screenshots/mat-4.png" width="32.5%" alt="Mat — slide 4" />
+  <img src="assets/screenshots/mat-8.png" width="32.5%" alt="Mat — slide 8" />
+</p>
+
+> Dark sage canvas with bone paper and burnt-orange accent; mid-century modern with wood undertones.
+
+### [Playful](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/playful/)
+
+<p>
+  <img src="assets/screenshots/playful-1.png" width="32.5%" alt="Playful — slide 1" />
+  <img src="assets/screenshots/playful-6.png" width="32.5%" alt="Playful — slide 6" />
+  <img src="assets/screenshots/playful-8.png" width="32.5%" alt="Playful — slide 8" />
+</p>
+
+> Sun-warm peach background with Syne display: a friendly indie launch deck.
+
+### [Raw Grid](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/raw-grid/)
+
+<p>
+  <img src="assets/screenshots/raw-grid-1.png" width="32.5%" alt="Raw Grid — slide 1" />
+  <img src="assets/screenshots/raw-grid-4.png" width="32.5%" alt="Raw Grid — slide 4" />
+  <img src="assets/screenshots/raw-grid-8.png" width="32.5%" alt="Raw Grid — slide 8" />
+</p>
+
+> Neo-brutalist deck with thick borders, offset shadows, and a pink/sage/ink palette.
+
+### [Retro Windows](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/retro-windows/)
+
+<p>
+  <img src="assets/screenshots/retro-windows-1.png" width="32.5%" alt="Retro Windows — slide 1" />
+  <img src="assets/screenshots/retro-windows-4.png" width="32.5%" alt="Retro Windows — slide 4" />
+  <img src="assets/screenshots/retro-windows-8.png" width="32.5%" alt="Retro Windows — slide 8" />
+</p>
+
+> Windows 95 chrome: gray title bars, MS Sans Serif, pixel typography, full nostalgia.
+
+### [Retro Zine](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/retro-zine/)
+
+<p>
+  <img src="assets/screenshots/retro-zine-1.png" width="32.5%" alt="Retro Zine — slide 1" />
+  <img src="assets/screenshots/retro-zine-4.png" width="32.5%" alt="Retro Zine — slide 4" />
+  <img src="assets/screenshots/retro-zine-8.png" width="32.5%" alt="Retro Zine — slide 8" />
+</p>
+
+> Beige paper with green accent and Bebas Neue + Caveat: a riso-printed zine in HTML form.
+
+### [Scatterbrain](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/scatterbrain/)
+
+<p>
+  <img src="assets/screenshots/scatterbrain-1.png" width="32.5%" alt="Scatterbrain — slide 1" />
+  <img src="assets/screenshots/scatterbrain-4.png" width="32.5%" alt="Scatterbrain — slide 4" />
+  <img src="assets/screenshots/scatterbrain-8.png" width="32.5%" alt="Scatterbrain — slide 8" />
+</p>
+
+> Post-it inspired: pastel sticky notes, Caveat handwriting, Shrikhand and Zilla Slab type stack.
+
+### [Signal](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/signal/)
+
+<p>
+  <img src="assets/screenshots/signal-1.png" width="32.5%" alt="Signal — slide 1" />
+  <img src="assets/screenshots/signal-18.png" width="32.5%" alt="Signal — slide 18" />
+  <img src="assets/screenshots/signal-8.png" width="32.5%" alt="Signal — slide 8" />
+</p>
+
+> Deep navy canvas with bone paper and a single muted-gold accent; institutional with quiet weight.
+
+### [Studio](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/studio/)
+
+<p>
+  <img src="assets/screenshots/studio-1.png" width="32.5%" alt="Studio — slide 1" />
+  <img src="assets/screenshots/studio-4.png" width="32.5%" alt="Studio — slide 4" />
+  <img src="assets/screenshots/studio-8.png" width="32.5%" alt="Studio — slide 8" />
+</p>
+
+> Black canvas with electric-yellow type; high-voltage design studio aesthetic.
+
+### [Biennale Yellow](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/biennale-yellow/)
+
+<p>
+  <img src="assets/screenshots/biennale-yellow-1.png" width="32.5%" alt="Biennale Yellow — slide 1" />
+  <img src="assets/screenshots/biennale-yellow-5.png" width="32.5%" alt="Biennale Yellow — slide 5" />
+  <img src="assets/screenshots/biennale-yellow-8.png" width="32.5%" alt="Biennale Yellow — slide 8" />
+</p>
+
+> Solar yellow on warm parchment with deep indigo serif and atmospheric sun-glow gradients. Dutch-editorial poster energy.
+
+### [Long Table](https://github.com/zarazhangrui/beautiful-html-templates/tree/main/templates/long-table/)
+
+<p>
+  <img src="assets/screenshots/long-table-1.png" width="32.5%" alt="Long Table — slide 1" />
+  <img src="assets/screenshots/long-table-3.png" width="32.5%" alt="Long Table — slide 3" />
+  <img src="assets/screenshots/long-table-7.png" width="32.5%" alt="Long Table — slide 7" />
+</p>
+
+> Warm cream and rust-red supper-club aesthetic with bold uppercase grotesk headlines, italic Fraunces, and pill-shaped outlined buttons.
+
+## Architecture
+
+This skill uses **progressive disclosure** — the main `SKILL.md` is a workflow map, with supporting files loaded on-demand only when needed:
+
+| File                      | Purpose                        | Loaded When               |
+| ------------------------- | ------------------------------ | ------------------------- |
+| `SKILL.md`                | Core workflow and rules        | Always (skill invocation) |
+| `STYLE_PRESETS.md`        | 12 curated visual presets      | Phase 2 (style selection) |
+| `bold-template-pack/selection-index.json` | Compact bold template metadata | Phase 2 (candidate selection) |
+| `bold-template-pack/templates/*/preview.md` | Tiny style cards for shortlisted bold previews | Phase 2 after shortlisting |
+| `bold-template-pack/templates/*/design.md` | Full design system for the selected bold template | Phase 3 after user selection |
+| `viewport-base.css`       | Mandatory fixed-stage CSS      | Phase 3 (generation)      |
+| `html-template.md`        | HTML structure and JS features | Phase 3 (generation)      |
+| `animation-patterns.md`   | CSS/JS animation reference     | Phase 3 (generation)      |
+| `scripts/extract-pptx.py` | PPT content extraction         | Phase 4 (conversion)      |
+| `scripts/export-deck.mjs` | Export to PDF / PNG / JPG / PPTX (pixel-identical) | Phase 6 (export) |
+| `scripts/deploy.sh`       | Deploy to Vercel               | Phase 6 (sharing)         |
+| `scripts/export-pdf.sh`   | Export slides to PDF (PDF-only alternative) | Phase 6 (sharing)        |
+
+Maintenance-only source metadata and regeneration helpers live outside the
+user-facing skill package. Normal users do not need them.
+
+This design follows agent-skill best practices: give the agent a map first,
+then reveal only the specific files needed for the current choice.
+
+## Philosophy
+
+This skill was born from the belief that:
+
+1. **You don't need to be a designer to make beautiful things.** You just need to react to what you see.
+
+2. **Dependencies are debt.** A single HTML file will work in 10 years. A React project from 2019? Good luck.
+
+3. **Generic is forgettable.** Every presentation should feel custom-crafted, not template-generated.
+
+4. **Comments are kindness.** Code should explain itself to future-you (or anyone else who opens it).
+
+## Sharing & Exporting
+
+After creating a presentation, export it to any format or share it as a live URL.
+
+### Export to PDF / Images / PPTX
+
+One command — every output is the deck's own 1920×1080 render, so it is pixel-identical to the HTML:
 
 ```bash
 # pick any of: pdf, png, jpg, pptx — or "all"
-node scripts/export-deck.mjs deck.html --format=all
-node scripts/export-deck.mjs deck.html --format=pdf,pptx
-node scripts/export-deck.mjs ./my-deck/ --format=png --out=./dist
+node scripts/export-deck.mjs ./presentation.html --format=all
+node scripts/export-deck.mjs ./presentation.html --format=pdf,pptx
+node scripts/export-deck.mjs ./presentation.html --format=pptx --pptx-mode=editable
 ```
 
-**PPTX has two modes:**
+On first run it auto-installs its tools (Playwright + Chromium, plus `pptxgenjs` for PPTX) into a shared cache. PPTX has two modes: `image` (default — pixel-identical) and `editable` (native text boxes, editable in PowerPoint but visually approximate). Flags: `--out=DIR`, `--compact`, `--jpeg-quality=N`.
 
-- `--pptx-mode=image` (default) — full-bleed images: **pixel-identical** to the deck, but text is not editable.
-- `--pptx-mode=editable` — native shapes + text boxes: **editable** in PowerPoint, but the look is **approximate** (fonts get substituted, text re-wraps).
+### Deploy to a Live URL
 
-On first run the exporter auto-installs its tools (Playwright + a Chromium browser, plus `pptxgenjs` for PPTX) into a shared cache — no global or repo pollution. Flags: `--out=DIR`, `--compact` (1280×720), `--jpeg-quality=N`.
-
-### Sharing to a live URL (optional)
+One command deploys your slides to a permanent, shareable URL that works on any device — phones, tablets, laptops:
 
 ```bash
-bash scripts/deploy.sh ./my-deck/        # or a single .html file
+bash scripts/deploy.sh ./my-deck/
+# or
+bash scripts/deploy.sh ./presentation.html
 ```
 
-Deploys to [Vercel](https://vercel.com) (free tier); the skill walks you through signup/login on first use.
+Uses [Vercel](https://vercel.com) (free tier). The skill walks you through signup and login if it's your first time.
 
-### Project structure
+### Export to PDF
 
-```
-SKILL.md              ← the skill (instructions every agent reads)
-STYLE_PRESETS.md      ← 12 curated safe presets
-viewport-base.css     ← mandatory fixed 16:9 stage CSS
-html-template.md      ← HTML architecture + JS features
-animation-patterns.md ← animation reference
-bold-template-pack/   ← 34 bold design systems + selection index
-scripts/
-  ├─ export-deck.mjs  ← export to PDF / PNG / JPG / PPTX (pixel-identical)
-  ├─ export-pdf.sh    ← PDF-only alternative
-  ├─ deploy.sh        ← deploy to Vercel
-  └─ extract-pptx.py  ← extract content from a .pptx
-LICENSE
+Convert your slides to a PDF for email, Slack, Notion, or printing:
+
+```bash
+bash scripts/export-pdf.sh ./my-deck/index.html
+bash scripts/export-pdf.sh ./presentation.html ./output.pdf
 ```
 
-### Requirements
+Uses [Playwright](https://playwright.dev) to screenshot each slide at 1920×1080 and combine into a PDF. Installs automatically if needed. Animations are not preserved (it's a static snapshot).
 
-- Any agent (or person) with filesystem access and the ability to run shell commands. **No plugin or marketplace needed.**
-- **Export (PDF/PNG/JPG/PPTX)** and **deploy**: Node.js (Playwright + `pptxgenjs` install automatically on first run).
-- **PPT conversion**: Python with `python-pptx` (`pip install python-pptx`).
-- **Live URL**: a free Vercel account.
+## Requirements
 
-### Credits
+- Any agent (or person) with filesystem access and the ability to run shell commands — no plugin or marketplace needed
+- For export (PDF / PNG / JPG / PPTX): Node.js (Playwright + `pptxgenjs` install automatically on first run)
+- For PPT conversion: Python with `python-pptx` library
+- For URL deployment: Node.js + a free Vercel account
 
-- Original **Frontend Slides** skill and the **Bold Template Pack** (`beautiful-html-templates`): **[Zara Zhang](https://github.com/zarazhangrui)** — MIT licensed.
-- **AgentBuff Presentation** rework — agent-agnostic packaging, the unified multi-format exporter (PDF/PNG/JPG/PPTX, image + editable), and bilingual docs: **Nugraha Labib Mujaddid**.
+## Credits
 
-### License
+- **Maintained by [Nugraha Labib Mujaddid](https://github.com/nugrahalabib)** — agent-agnostic rework, the unified multi-format exporter (PDF/PNG/JPG/PPTX, image + editable), and these docs.
+- Based on the original **Frontend Slides** skill and the **Bold Template Pack** by [@zarazhangrui](https://github.com/zarazhangrui).
 
-MIT — see [`LICENSE`](LICENSE). Use it, modify it, share it. The original copyright notice (Zara Zhang) is retained as the license requires.
+## License
+
+MIT — see [`LICENSE`](LICENSE). Use it, modify it, share it.
 
 ---
 
 ## Bahasa Indonesia
 
-### Apa ini?
+**AgentBuff Presentation** adalah sebuah **project skill** — hasil modifikasi dari skill open-source [Frontend Slides](https://github.com/zarazhangrui/frontend-slides) (oleh Zara Zhang) — yang bisa diberikan ke **agentic AI mana pun** (Claude Code, Codex, Hermes, OpenClaw, Gemini CLI, dan lainnya) untuk membuat presentasi yang indah, lalu mengekspornya ke **HTML, PDF, PNG/JPG, atau PPTX** — semuanya pixel-identik dengan deck-nya. **Tidak ada plugin dan tidak ada yang khusus Claude**: `SKILL.md` hanyalah instruksi biasa yang bisa dibaca agent apa pun dengan akses filesystem & shell.
 
-**AgentBuff Presentation** adalah sebuah **skill** yang bisa kamu berikan ke *agentic AI mana pun* — Claude Code, Codex, Hermes, OpenClaw, Gemini CLI, pipeline CI, atau bahkan manusia — untuk membuat presentasi yang indah dan khas **tanpa perlu menulis CSS atau JavaScript**.
+### Apa yang dilakukannya
 
-Pendekatannya **"show, don't tell"**: alih-alih memintamu mendeskripsikan selera dengan kata-kata, agent membuat beberapa **preview gaya visual** lalu kamu tinggal memilih. Presentasi dibuat sekali sebagai **HTML deck tanpa dependency** (satu file, semua CSS/JS inline). HTML deck itulah **sumber kebenaran tunggal** — dan darinya kamu bisa mengekspor ke PDF, gambar, atau PowerPoint, semuanya dibuat dari render 1920×1080 yang sama sehingga tampak **persis** seperti deck-nya.
-
-**Tidak ada plugin, tidak ada marketplace, dan tidak ada yang khusus Claude.** Isinya hanya `SKILL.md` (instruksi) plus beberapa file pendukung & script, semua memakai tooling standar.
-
-### Format keluaran
-
-HTML deck selalu dibuat lebih dulu (di situlah desainnya). Sisanya diekspor dari situ:
-
-| Format | Apa itu | Cocok untuk |
-| ------ | ------- | ----------- |
-| **HTML deck** | Interaktif, beranimasi, satu file | Presentasi langsung, berbagi link, edit teks inline |
-| **PDF** | Satu slide per halaman, 16:9 | Email, cetak, Notion |
-| **PNG / JPG** | Satu gambar per slide, 1920×1080 | Thumbnail, sosial media, dokumen |
-| **PPTX** | PowerPoint — mode gambar (pixel-perfect) atau editable | Diserahkan ke pengguna PowerPoint/Keynote |
+Membantu non-desainer membuat presentasi web yang indah tanpa tahu CSS/JavaScript. Pendekatannya **"show, don't tell"**: alih-alih memintamu mendeskripsikan selera, agent membuat beberapa preview gaya visual lalu kamu tinggal memilih. Presentasi dibuat sekali sebagai **HTML deck tanpa dependency** (satu file), dan dari situ bisa diekspor ke format lain.
 
 ### Fitur utama
 
-- **Buat sekali, ekspor ke mana saja** — PDF / PNG / JPG / PPTX semuanya adalah piksel render deck itu sendiri, jadi hasil ekspor tidak pernah melenceng dari HTML.
-- **Agent-agnostic** — Hanya tooling standar (browser, Node.js, opsional Python). Tanpa API khusus Claude.
-- **Tanpa dependency di output** — Deck adalah satu file HTML mandiri yang tetap jalan 10 tahun lagi.
-- **Anti "AI slop"** — Gaya-gaya kurасi yang khas, menghindari estetika AI generik (tanpa gradien ungu di atas putih).
-- **Bold Template Pack** — 34 sistem desain opsional, dimuat secara progresif.
-- **Konversi PPT** — Ubah `.pptx` yang sudah ada menjadi web deck, mempertahankan teks, gambar, dan catatan.
+- **Tanpa dependency** — Satu file HTML mandiri, CSS/JS inline, tanpa build tool.
+- **Ekspor multi-format** — Satu perintah mengubah deck jadi **PDF, PNG/JPG, atau PPTX** — semua pixel-identik dengan HTML (PPTX mode gambar atau editable).
+- **Agent-agnostic** — Tanpa plugin, tanpa hal khusus Claude. Bisa dipakai agent mana pun.
+- **Penemuan gaya visual** — Susah mengungkapkan selera? Pilih saja dari preview yang dibuatkan.
+- **Konversi PPT** — Ubah `.pptx` jadi web deck, mempertahankan teks, gambar, dan catatan.
+- **Bold Template Pack** — 34 sistem desain opsional, dimuat progresif.
 
-### Cara agent mana pun memakainya
+### Instalasi
 
-**Opsi A — arahkan agent ke skill-nya.** Berikan agent repo ini (atau folder lokalnya) dan minta ia *"pakai skill AgentBuff Presentation di `SKILL.md`."* Agent membaca `SKILL.md` dan hanya memuat file pendukung yang diperlukan.
-
-**Opsi B — pasang ke folder skill milik agent.**
+Bukan plugin, bukan marketplace — hanya folder skill. Salin file-nya ke folder skill milik agent-mu, atau cukup arahkan agent ke `SKILL.md`.
 
 ```bash
 # Contoh untuk Claude Code (nama folder harus sama dengan nama skill)
 mkdir -p ~/.claude/skills/agentbuff-presentation
 git clone https://github.com/nugrahalabib/AgentBuff-Presentation-Skills.git ~/.claude/skills/agentbuff-presentation
-# lalu panggil (Claude Code): /agentbuff-presentation
+# lalu panggil di Claude Code: /agentbuff-presentation
 ```
 
-Untuk agent lain, salin file yang sama ke folder skill lokal yang dipakai agent tersebut.
+Untuk agent lain, salin file yang sama ke folder skill yang dipakai agent tersebut.
 
-### Alur kerjanya
+### Penggunaan
 
-1. Bertanya soal konten, panjang, kepadatan, dan **format** yang kamu inginkan.
-2. Membuat **3 preview gaya visual** untuk kamu bandingkan dan pilih.
-3. Membangun deck lengkap dengan gaya pilihanmu (16:9 tetap, beranimasi, teks bisa diedit inline).
-4. Membukanya di browser.
-5. Mengekspor / membagikan sesuai permintaan.
+Di Claude Code ketik `/agentbuff-presentation`; di agent lain minta ia memakai skill ini dan arahkan ke `SKILL.md`. Lalu cukup katakan, misalnya: *"Buatkan pitch deck untuk startup AI saya"* atau *"Konversi presentasi.pptx jadi slideshow web"*. Skill akan menanyakan konten, membuat 3 preview gaya untuk kamu pilih, membangun deck-nya, lalu membukanya di browser.
 
-### Mengekspor
+### Galeri template
 
-Satu perintah mengekspor deck jadi kombinasi format apa pun:
+34 template desain bold ditampilkan di galeri **[Bold Template Gallery](#bold-template-gallery)** pada bagian English di atas (gambar-gambarnya kini tersimpan lokal di repo ini, di `assets/screenshots/`).
+
+### Ekspor & berbagi
+
+Satu perintah mengekspor deck ke kombinasi format apa pun (semuanya pixel-identik):
 
 ```bash
-# pilih salah satu/lebih: pdf, png, jpg, pptx — atau "all"
-node scripts/export-deck.mjs deck.html --format=all
-node scripts/export-deck.mjs deck.html --format=pdf,pptx
-node scripts/export-deck.mjs ./my-deck/ --format=png --out=./dist
+node scripts/export-deck.mjs ./presentation.html --format=all
+node scripts/export-deck.mjs ./presentation.html --format=pptx --pptx-mode=editable
 ```
 
-**PPTX punya dua mode:**
-
-- `--pptx-mode=image` (default) — gambar full-bleed: **pixel-identik** dengan deck, tapi teks tidak bisa diedit.
-- `--pptx-mode=editable` — shape + text box native: teks **bisa diedit** di PowerPoint, tapi tampilannya **approximate** (font disubstitusi, teks ter-wrap ulang).
-
-Pada run pertama, exporter otomatis memasang tool-nya (Playwright + browser Chromium, plus `pptxgenjs` untuk PPTX) ke cache bersama — tanpa mengotori global maupun repo. Flag: `--out=DIR`, `--compact` (1280×720), `--jpeg-quality=N`.
-
-### Berbagi via URL live (opsional)
-
-```bash
-bash scripts/deploy.sh ./my-deck/        # atau satu file .html
-```
-
-Men-deploy ke [Vercel](https://vercel.com) (tier gratis); skill memandu pendaftaran/login saat pertama kali.
-
-### Struktur proyek
-
-```
-SKILL.md              ← skill-nya (instruksi yang dibaca tiap agent)
-STYLE_PRESETS.md      ← 12 preset aman terkurасi
-viewport-base.css     ← CSS panggung 16:9 tetap (wajib)
-html-template.md      ← arsitektur HTML + fitur JS
-animation-patterns.md ← referensi animasi
-bold-template-pack/   ← 34 sistem desain bold + indeks seleksi
-scripts/
-  ├─ export-deck.mjs  ← ekspor ke PDF / PNG / JPG / PPTX (pixel-identik)
-  ├─ export-pdf.sh    ← alternatif khusus PDF
-  ├─ deploy.sh        ← deploy ke Vercel
-  └─ extract-pptx.py  ← ekstrak konten dari .pptx
-LICENSE
-```
+PPTX punya dua mode: `image` (default — pixel-identik) dan `editable` (text box native, bisa diedit di PowerPoint tapi tampilannya approximate). Untuk URL live: `bash scripts/deploy.sh ./presentation.html` (Vercel, tier gratis).
 
 ### Kebutuhan
 
-- Agent (atau orang) mana pun dengan akses filesystem dan bisa menjalankan shell. **Tanpa plugin atau marketplace.**
-- **Ekspor (PDF/PNG/JPG/PPTX)** dan **deploy**: Node.js (Playwright + `pptxgenjs` terpasang otomatis saat run pertama).
-- **Konversi PPT**: Python dengan `python-pptx` (`pip install python-pptx`).
-- **URL live**: akun Vercel gratis.
+- Agent (atau orang) mana pun dengan akses filesystem & shell — tanpa plugin/marketplace.
+- Ekspor (PDF/PNG/JPG/PPTX) & deploy: Node.js (Playwright + `pptxgenjs` terpasang otomatis saat run pertama).
+- Konversi PPT: Python + `python-pptx`. URL live: akun Vercel gratis.
 
-### Kredit
+### Kredit & Lisensi
 
-- Skill **Frontend Slides** asli dan **Bold Template Pack** (`beautiful-html-templates`): **[Zara Zhang](https://github.com/zarazhangrui)** — berlisensi MIT.
-- Pengembangan **AgentBuff Presentation** — pengemasan agent-agnostic, exporter multi-format terpadu (PDF/PNG/JPG/PPTX, mode gambar + editable), dan dokumentasi bilingual: **Nugraha Labib Mujaddid**.
-
-### Lisensi
-
-MIT — lihat [`LICENSE`](LICENSE). Pakai, modifikasi, bagikan. Notice hak cipta asli (Zara Zhang) tetap dipertahankan sesuai syarat lisensi.
+Dikelola oleh **[Nugraha Labib Mujaddid](https://github.com/nugrahalabib)** (pengemasan agent-agnostic, exporter multi-format, dokumentasi). Berbasis skill **Frontend Slides** & **Bold Template Pack** oleh [@zarazhangrui](https://github.com/zarazhangrui). Lisensi **MIT** — lihat [`LICENSE`](LICENSE).
