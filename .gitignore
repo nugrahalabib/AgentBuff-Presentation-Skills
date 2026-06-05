@@ -1,0 +1,22 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+package-lock.json
+
+# Deploy / tooling
+.vercel/
+.claude-design/
+
+# Skill working dirs & generated artifacts (never commit generated decks/exports)
+.frontend-slides/
+exports/
+*-png/
+*-jpg/
+
+# Logs & secrets
+*.log
+.env
+*.pem
